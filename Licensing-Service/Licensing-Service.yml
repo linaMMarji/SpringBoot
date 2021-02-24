@@ -33,3 +33,65 @@ license:
       prfx: Refresh Srvc
    dsa:
       prfx: In Arabic
+resilience4j:
+  configs:
+    default:
+      cancelRunningFuture: true
+      timeoutDuration: 1s
+  instances:
+    Licensing-Service:
+      baseConfig: default
+
+
+  #  CIRCUITBREAKER:
+  # ------------------
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 1
+        permittedNumberOfCallsInHalfOpenState: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+
+    instances:
+      Licensing-Service:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 1
+        permittedNumberOfCallsInHalfOpenState: 5
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50 #50% de 10 do eventConsumerBufferSize
+        eventConsumerBufferSize: 10
+        recordExceptionsAsSuccess: &mark_success
+          - org.springframework.web.client.HttpClientErrorException
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+
+
+  # RATELIMITER
+  # ------------------
+  ratelimiter:
+    configs:
+      default:
+        registerHealthIndicator: false
+        limitForPeriod: 10
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0
+        eventConsumerBufferSize: 100
+
+
+    instances:
+      Licensing-Service:
+        limitForPeriod: 6
+        limitRefreshPeriod: 1s
+        timeoutDuration: 3s
