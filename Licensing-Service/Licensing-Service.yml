@@ -41,6 +41,15 @@ resilience4j:
   instances:
     Organization-Service:
       baseConfig: default
+      timeoutDuration: 1000
+      cancelRunningFuture: true
+
+    thread-pool-bulkhead:
+      instances:
+        mybulkhead:
+          coreThreadPoolSize: 10
+          maxThreadPoolSize: 10
+          queueCapacity: 5
 
 
   #  CIRCUITBREAKER:
@@ -114,3 +123,4 @@ resilience4j:
         limitForPeriod: 6
         limitRefreshPeriod: 1s
         timeoutDuration: 1s
+ 
