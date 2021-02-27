@@ -38,12 +38,6 @@ resilience4j:
     default:
       cancelRunningFuture: true
       timeoutDuration: 1s
-  instances:
-    Organization-Service:
-      baseConfig: default
-      timeoutDuration: 1000
-      cancelRunningFuture: true
-
     thread-pool-bulkhead:
       instances:
         mybulkhead:
