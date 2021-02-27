@@ -52,18 +52,14 @@ resilience4j:
     configs:
       default:
         registerHealthIndicator: true
-        slidingWindowSize: 10
-        minimumNumberOfCalls: 1
+        slidingWindowSize: 2
+        minimumNumberOfCalls: 2
         permittedNumberOfCallsInHalfOpenState: 5
         automaticTransitionFromOpenToHalfOpenEnabled: true
         waitDurationInOpenState: 10s
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
-        recordExceptions:
-          - org.springframework.web.client.HttpServerErrorException
-          - java.util.concurrent.TimeoutException
-          - java.io.IOException
-   
+        
   # RATELIMITER
   # ------------------
   ratelimiter:
@@ -72,5 +68,5 @@ resilience4j:
         registerHealthIndicator: false
         limitForPeriod: 10
         limitRefreshPeriod: 1s
-        timeoutDuration: 0
+        timeoutDuration: 10
         eventConsumerBufferSize: 100
