@@ -70,3 +70,8 @@ resilience4j:
         limitRefreshPeriod: 1s
         timeoutDuration: 1
         eventConsumerBufferSize: 100
+  timelimiter:
+    instances:
+        Organization-Service:
+         timeoutDuration: 2s
+         cancelRunningFuture: true
