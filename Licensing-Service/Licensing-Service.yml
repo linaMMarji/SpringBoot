@@ -47,9 +47,7 @@ resilience4j.circuitbreaker:
       eventConsumerBufferSize: 10
       slowCallRateThreshold: 10
       slowCallDurationThreshold: 1000
-      recordExceptions:
-        - org.springframework.web.client.HttpServerErrorException
-        - java.io.IOException
+     
 resilience4j.retry:
   configs:
     default:
