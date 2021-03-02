@@ -53,10 +53,7 @@ resilience4j.retry:
     default:
       maxRetryAttempts: 2
       waitDuration: 100
-      retryExceptions:
-        - org.springframework.web.client.HttpServerErrorException
-        - java.io.IOException
-
+      
 resilience4j.bulkhead:
   configs:
     default:
