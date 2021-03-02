@@ -59,6 +59,7 @@ resilience4j:
         waitDurationInOpenState: 10s
         failureRateThreshold: 10
         eventConsumerBufferSize: 10
+        slowCallDurationThreshold: 2000
         
   # RATELIMITER
   # ------------------
