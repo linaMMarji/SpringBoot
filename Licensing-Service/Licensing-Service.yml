@@ -33,45 +33,49 @@ license:
       prfx: Refresh Srvc
    dsa:
       prfx: In Arabic
-resilience4j:
+resilience4j.circuitbreaker:
   configs:
     default:
-      cancelRunningFuture: true
-      timeoutDuration: 1s
-    thread-pool-bulkhead:
-      instances:
-        Organization-Service:
-          coreThreadPoolSize: 10
-          maxThreadPoolSize: 10
-          queueCapacity: 5
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 1
+      slidingWindowType: TIME_BASED
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 2s
+      failureRateThreshold: 30
+      eventConsumerBufferSize: 10
+      slowCallRateThreshold: 10
+      slowCallDurationThreshold: 1000
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+resilience4j.retry:
+  configs:
+    default:
+      maxRetryAttempts: 2
+      waitDuration: 100
+      retryExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
 
+resilience4j.bulkhead:
+  configs:
+    default:
+      maxConcurrentCalls: 100
 
-  #  CIRCUITBREAKER:
-  # -----------------
-  circuitbreaker:
-    configs:
-      default:
-        registerHealthIndicator: true
-        slidingWindowSize: 2
-        minimumNumberOfCalls: 1
-        permittedNumberOfCallsInHalfOpenState: 1
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 10s
-        failureRateThreshold: 10
-        eventConsumerBufferSize: 10
-        slowCallDurationThreshold: 2000
-  # RATELIMITER
-  # ------------------
-  ratelimiter:
-    configs:
-      default:
-        registerHealthIndicator: false
-        limitForPeriod: 10
-        limitRefreshPeriod: 1s
-        timeoutDuration: 1
-        eventConsumerBufferSize: 100
-  timelimiter:
-    instances:
-        Organization-Service:
-         timeoutDuration: 2s
-         cancelRunningFuture: true
+resilience4j.thread-pool-bulkhead:
+  configs:
+    default:
+      maxThreadPoolSize: 4
+      coreThreadPoolSize: 2
+      queueCapacity: 2
+
+resilience4j.ratelimiter:
+  configs:
+    default:
+      registerHealthIndicator: false
+      limitForPeriod: 10
+      limitRefreshPeriod: 1s
+      timeoutDuration: 0
+      eventConsumerBufferSize: 100
