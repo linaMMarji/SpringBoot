@@ -8,12 +8,12 @@ resilience4j.circuitbreaker:
     default:
       registerHealthIndicator: true
       slidingWindowSize: 10
-      minimumNumberOfCalls: 5
+      minimumNumberOfCalls: 3
       slidingWindowType: TIME_BASED
       permittedNumberOfCallsInHalfOpenState: 3
       automaticTransitionFromOpenToHalfOpenEnabled: true
       waitDurationInOpenState: 2s
-      failureRateThreshold: 30
+      failureRateThreshold: 17
       eventConsumerBufferSize: 10
       recordExceptions:
         - org.springframework.web.client.HttpServerErrorException
